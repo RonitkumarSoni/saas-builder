@@ -1,12 +1,19 @@
 """
 SaaS-Builder CLI - Generate full-stack SaaS applications with AI.
 """
+from importlib.metadata import PackageNotFoundError, version as _package_version
+
 import typer
 from rich import print
 from rich.console import Console
 from rich.panel import Panel
 
 from gocodeo_cli.commands import build
+
+try:
+    __version__ = _package_version("saas-builder")
+except PackageNotFoundError:  # running from source without an installed package
+    __version__ = "0.8"
 
 # Initialize Typer app
 app = typer.Typer(
@@ -22,7 +29,7 @@ def version_callback(value: bool):
     """Print version information."""
     if value:
         print(Panel.fit(
-            "[bold blue]SaaS-Builder[/bold blue] [yellow]v0.1.0[/yellow]",
+            f"[bold blue]SaaS-Builder[/bold blue] [yellow]v{__version__}[/yellow]",
             title="Version",
             border_style="blue",
         ))
